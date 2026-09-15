@@ -54,6 +54,30 @@ paths:
         "401": { $ref: "#/components/responses/Unauthorized" }
         "403": { $ref: "#/components/responses/Forbidden" }
         "409": { $ref: "#/components/responses/Conflict" }
+  /api/auctions:
+    post:
+      tags: [Auctions]
+      operationId: createAuctionWithoutTrailingSlash
+      security: [{ humanOrBffToken: [] }]
+      requestBody:
+        required: true
+        content:
+          {
+            application/json:
+              { schema: { $ref: "#/components/schemas/CreateAuctionRequest" } },
+          }
+      responses:
+        "201":
+          description: Auction created.
+          content:
+            {
+              application/json:
+                { schema: { $ref: "#/components/schemas/AuctionDetail" } },
+            }
+        "400": { $ref: "#/components/responses/BadRequest" }
+        "401": { $ref: "#/components/responses/Unauthorized" }
+        "403": { $ref: "#/components/responses/Forbidden" }
+        "409": { $ref: "#/components/responses/Conflict" }
   /api/auctions/{id}:
     parameters:
       - { $ref: "#/components/parameters/AuctionId" }
