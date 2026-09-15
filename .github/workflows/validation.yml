@@ -1,0 +1,22 @@
+name: Contract validation
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+      - name: Install validation dependencies
+        run: npm ci
+      - name: Validate schemas, fixtures, OpenAPI, and AsyncAPI
+        run: npm run validate
+      - name: Check formatting
+        run: npm run format:check

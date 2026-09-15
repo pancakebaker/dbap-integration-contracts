@@ -1,0 +1,73 @@
+asyncapi: 2.6.0
+info:
+  title: DBAP Auction Events
+  version: 1.0.0
+  description: >-
+    Documentation of the current RabbitMQ integration-event channel. This
+    specification is descriptive and is not a runtime topology definition.
+defaultContentType: application/json
+servers:
+  local:
+    url: localhost:5672
+    protocol: amqp
+    description: Local RabbitMQ endpoint supplied by platform infrastructure.
+    protocolVersion: "0-9-1"
+    variables: { vhost: { default: "/" } }
+channels:
+  auction.bid.accepted:
+    description: BidAccepted messages from Bidding.
+    publish:
+      operationId: consumeBidAccepted
+      message: { $ref: "#/components/messages/BidAccepted" }
+  auction.purchased:
+    description: AuctionPurchased messages from Bidding.
+    publish:
+      operationId: consumeAuctionPurchased
+      message: { $ref: "#/components/messages/AuctionPurchased" }
+  auction.closed:
+    description: AuctionClosed messages from the Bidding Scheduler.
+    publish:
+      operationId: consumeAuctionClosed
+      message: { $ref: "#/components/messages/AuctionClosed" }
+  auction.winner.selected:
+    description: WinnerSelected messages from the Bidding Scheduler.
+    publish:
+      operationId: consumeWinnerSelected
+      message: { $ref: "#/components/messages/WinnerSelected" }
+  auction.cancelled:
+    description: AuctionCancelled messages from Bidding.
+    publish:
+      operationId: consumeAuctionCancelled
+      message: { $ref: "#/components/messages/AuctionCancelled" }
+  tenant.status.changed:
+    description: TenantStatusChanged messages from Bidding.
+    publish:
+      operationId: consumeTenantStatusChanged
+      message: { $ref: "#/components/messages/TenantStatusChanged" }
+components:
+  messages:
+    BidAccepted:
+      name: BidAccepted
+      title: BidAccepted v1
+      payload: { $ref: "../schemas/events/v1/bid-accepted.schema.json" }
+    AuctionPurchased:
+      name: AuctionPurchased
+      title: AuctionPurchased v1
+      payload: { $ref: "../schemas/events/v1/auction-purchased.schema.json" }
+    AuctionClosed:
+      name: AuctionClosed
+      title: AuctionClosed v1
+      payload: { $ref: "../schemas/events/v1/auction-closed.schema.json" }
+    WinnerSelected:
+      name: WinnerSelected
+      title: WinnerSelected v1
+      payload: { $ref: "../schemas/events/v1/winner-selected.schema.json" }
+    AuctionCancelled:
+      name: AuctionCancelled
+      title: AuctionCancelled v1
+      payload: { $ref: "../schemas/events/v1/auction-cancelled.schema.json" }
+    TenantStatusChanged:
+      name: TenantStatusChanged
+      title: TenantStatusChanged v1
+      payload:
+        { $ref: "../schemas/events/v1/tenant-status-changed.schema.json" }

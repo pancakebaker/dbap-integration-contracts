@@ -1,0 +1,18 @@
+{
+  "name": "dbap-integration-contracts",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "validate": "node scripts/validate.mjs",
+    "validate:schemas": "node scripts/validate.mjs --schemas-only",
+    "format:check": "prettier --check ."
+  },
+  "devDependencies": {
+    "@apidevtools/swagger-parser": "^10.1.1",
+    "@asyncapi/parser": "^3.4.0",
+    "ajv": "^8.17.1",
+    "ajv-formats": "^3.0.1",
+    "prettier": "^3.6.2",
+    "yaml": "^2.8.1"
+  }
+}
