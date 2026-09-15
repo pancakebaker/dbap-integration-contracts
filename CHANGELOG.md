@@ -8,6 +8,8 @@ immutable; changes are classified using [the versioning policy](docs/versioning.
 Future changes require compatibility review, release metadata updates, and
 intentional application snapshot upgrades.
 
+- Added Phase 4 code-generation and package-distribution evaluation guidance.
+
 ## [1.0.0] - 2026-09-15
 
 - Established the six v1 event schemas and shared envelope.
