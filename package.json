@@ -5,7 +5,10 @@
   "scripts": {
     "validate": "node scripts/validate.mjs",
     "validate:schemas": "node scripts/validate.mjs --schemas-only",
-    "format:check": "prettier --check ."
+    "format:check": "prettier --check .",
+    "compatibility:check": "node scripts/compatibility.mjs",
+    "compatibility:test": "node --test tests/compatibility.test.mjs",
+    "release:check": "npm run validate && npm run compatibility:check && node scripts/release-check.mjs"
   },
   "devDependencies": {
     "@apidevtools/swagger-parser": "^10.1.1",

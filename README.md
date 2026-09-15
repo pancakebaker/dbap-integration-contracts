@@ -71,7 +71,17 @@ npm run format:check
 Validation uses AJV for JSON Schema, Swagger Parser for OpenAPI, and the
 AsyncAPI parser for messaging documentation. It does not require PostgreSQL,
 RabbitMQ, Redis, or any application repository. Application-side producer and
-consumer conformance checks are intentionally deferred to Phase 2.
+consumer conformance checks are maintained in the four application repositories
+against pinned snapshots.
+
+## Releases / Versioning
+
+The canonical contract set follows Semantic Versioning. Official releases use
+immutable annotated tags, and applications pin exact commit SHAs for
+reproducible conformance. The repository is preparing its first `v1.0.0`
+release baseline; package publication and generated clients remain deferred.
+See [the release process](docs/release-process.md), [the upgrade process](docs/application-upgrades.md),
+and [the support matrix](docs/support-matrix.md).
 
 ## Related repositories
 

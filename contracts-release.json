@@ -1,0 +1,21 @@
+{
+  "version": "1.0.0",
+  "commit": "6c89fb85d96110b881ff789470e3d7acfd5331e1",
+  "schemaDraft": "2020-12",
+  "openapiVersion": "3.1.0",
+  "asyncapiVersion": "2.6.0",
+  "schemas": [
+    "event-envelope",
+    "bid-accepted",
+    "auction-purchased",
+    "auction-closed",
+    "winner-selected",
+    "auction-cancelled",
+    "tenant-status-changed"
+  ],
+  "fixtures": [
+    "auction-bid-accepted.json",
+    "auction-closed.json",
+    "winner-selected.json"
+  ]
+}

@@ -3,6 +3,7 @@ name: Contract validation
 on:
   push:
     branches: [main]
+    tags: ["v*"]
   pull_request:
 
 jobs:
@@ -10,6 +11,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
       - uses: actions/setup-node@v4
         with:
           node-version: 24
@@ -18,5 +21,9 @@ jobs:
         run: npm ci
       - name: Validate schemas, fixtures, OpenAPI, and AsyncAPI
         run: npm run validate
+      - name: Test compatibility checks
+        run: npm run compatibility:test
+      - name: Check release metadata
+        run: npm run release:check
       - name: Check formatting
         run: npm run format:check

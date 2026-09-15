@@ -1,27 +1,46 @@
-# Contract versioning
+# Contract versioning and compatibility
 
-This repository describes wire contracts independently from the producer
-domain models and consumer projections. The schema/API document version is
-not the same thing as an event `aggregateVersion`.
+The repository version describes the complete externally consumed contract set:
+event schemas and envelope, fixtures, OpenAPI, and AsyncAPI. It is separate
+from an event's `aggregateVersion`, which orders transitions within one
+aggregate.
 
-Semantic-versioning guidance for future releases:
+## Semantic versioning
 
-- **Patch:** documentation, validator, or example corrections with no wire change.
-- **Minor:** additive compatible fields, event types, or routing documentation.
-- **Major:** removed or renamed fields/events, changed meaning or type, changed
-  routing keys, or other incompatible wire behavior.
+- **MAJOR:** remove or rename an event or field, make an optional field
+  required, change a field type or money representation, narrow an enum,
+  change timestamp or UUID semantics, change a routing key, remove an endpoint,
+  change an HTTP method, remove a documented response status, or change
+  authentication claims/semantics incompatibly.
+- **MINOR:** add a new event, endpoint, optional field, compatible response
+  property, or supporting documentation. An enum addition is review-required
+  and may be breaking for strict consumers.
+- **PATCH:** correct documentation, metadata, tooling, or an example without
+  changing wire semantics. A semantic correction is not automatically a patch.
 
-Versioned fixtures are compatibility baselines. Once published, treat a v1
-fixture as immutable. A semantic correction normally requires a new version or
-an explicitly coordinated compatibility decision rather than silently editing
-the old baseline.
+The same classification applies across JSON Schema, OpenAPI, and AsyncAPI.
+Existing event names, routing keys, envelope fields, endpoint methods, and
+documented status behavior are compatibility commitments.
 
-Adding an optional field is compatible only when existing consumers tolerate
-unknown fields. Required-field additions, field removal, enum narrowing,
-numeric representation changes, endpoint path changes, and routing-key changes
-require coordinated migration. Unknown enum values are not assumed to be
-forward compatible because current TypeScript parsers validate known values.
+## Compatibility rules
 
-Deprecation requires a compatible replacement, a documented migration window,
-and removal only in a breaking major version. No version tags or deprecations
-are created by Phase 1.
+Published schemas and fixtures are immutable. Additive unknown JSON properties
+are currently tolerated, but required fields, known enum values, numeric money
+representation, ISO-8601 UTC timestamps, and UUID/GUID string shape remain
+contractual. Distinct companion events may share one `aggregateVersion`.
+
+Security changes are contract changes even when the HTTP shape is unchanged:
+required JWT claims, service-token validation, client assertion admission, and
+tenant-binding semantics require compatibility review.
+
+The repository compatibility check detects high-confidence removals and
+incompatible changes. It is a review aid, not a complete semantic proof.
+Possible breaking changes fail validation; compatible additions still require
+an intentional version and changelog update.
+
+## Published releases
+
+Official releases use immutable annotated tags such as `v1.0.0`. Never move or
+overwrite a published tag. A defective release remains historically addressable
+and is superseded by a new patch or major release. Applications pin exact
+commits; rollback means restoring a previous pin and redeploying after tests.
