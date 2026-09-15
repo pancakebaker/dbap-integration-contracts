@@ -96,6 +96,16 @@ paths:
         "403": { $ref: "#/components/responses/Forbidden" }
         "404": { $ref: "#/components/responses/NotFound" }
         "409": { $ref: "#/components/responses/Conflict" }
+    delete:
+      tags: [Auctions]
+      operationId: deleteAuction
+      security: [{ humanOrBffToken: [] }]
+      responses:
+        "204": { description: Auction deleted. }
+        "401": { $ref: "#/components/responses/Unauthorized" }
+        "403": { $ref: "#/components/responses/Forbidden" }
+        "404": { $ref: "#/components/responses/NotFound" }
+        "409": { $ref: "#/components/responses/Conflict" }
   /api/auctions/{id}/bids:
     parameters:
       - { $ref: "#/components/parameters/AuctionId" }
@@ -165,6 +175,33 @@ paths:
             {
               application/json:
                 { schema: { $ref: "#/components/schemas/BuyNowResponse" } },
+            }
+        "400": { $ref: "#/components/responses/BadRequest" }
+        "401": { $ref: "#/components/responses/Unauthorized" }
+        "403": { $ref: "#/components/responses/Forbidden" }
+        "404": { $ref: "#/components/responses/NotFound" }
+        "409": { $ref: "#/components/responses/Conflict" }
+  /api/auctions/{id}/cancel:
+    parameters:
+      - { $ref: "#/components/parameters/AuctionId" }
+    post:
+      tags: [Auctions]
+      operationId: cancelAuction
+      security: [{ humanOrBffToken: [] }]
+      requestBody:
+        required: true
+        content:
+          {
+            application/json:
+              { schema: { $ref: "#/components/schemas/CancelAuctionRequest" } },
+          }
+      responses:
+        "200":
+          description: Auction cancelled.
+          content:
+            {
+              application/json:
+                { schema: { $ref: "#/components/schemas/AuctionDetail" } },
             }
         "400": { $ref: "#/components/responses/BadRequest" }
         "401": { $ref: "#/components/responses/Unauthorized" }
@@ -478,6 +515,10 @@ components:
         - type: object
           required: [version]
           properties: { version: { type: integer, minimum: 1 } }
+    CancelAuctionRequest:
+      type: object
+      required: [version]
+      properties: { version: { type: integer, minimum: 1 } }
     PlaceBidRequest:
       type: object
       required: [amount]
